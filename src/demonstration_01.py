@@ -1,77 +1,64 @@
 """
-Given a string, implement a function that returns the string with all lowercase
-characters.
+Given an array of integers `nums` and an integer `target`, return the indices
+of the two numbers that add up to the `target`.
 ​
-Example 1:
+Examples:         
+- two_sum(nums = [2,5,9,13], target = 18) -> [1,3]
+- two_sum(nums = [2,5,9,13], target = 7) -> [0,1] (nums[0] + nums[1] == 7)
+- two_sum(nums = [4,3,5], target = 8) -> [1,2] (nums[1] + nums[2] == 8)
 ​
-Input: "LambdaSchool"
-Output: "lambdaschool"
+Notes:
 ​
-Example 2:
-​
-Input: "austen"
-Output: "austen"
-​
-Example 3:
-​
-Input: "LLAMA"
-Output: "llama"
-​
-*Note: You must implement the function without using the built-in method on
-string objects in Python. Think about how character encoding works and explore
-if there is a mathematical approach that you can take.*
+- Each input will have only one solution.
+- You may not use the same element twice.
+- You can return the answer in any order.
 """
-def to_lower_case(string):
-    # Your code here
-    # return string.lower()
-    '''
-    Input: string containing lower and uppercase letters
-    Output: the lowercased string 
 ​
-    ASCII representation of letters maps letters to numbers 
-    lowercase letters a..z are mapped to 97..122 
-    uppercase letters A..Z are mapped to 65..90
-    97 - 65 = 32
-    122 - 90 = 32 
+# how can we write this with only a single for loop that 
+# still gives us the same answer? 
+def two_sum(nums, target):
+    # we need to reduce redundancy by saving some data in a data structure
+    # how do we want to save our data? 
+    # because this problem needs us to return the index associated with each 
+    # number, we'll need to store each number with its corresponding index 
+    d = {}
 ​
-    To take a lowercase letter and capitalize it, subtract 32 to its ascii number 
-    To take an uppercase letter and lowercase it, add 32 to its ascii number 
+    # O(n + n) == O(2 * n) ~ O(n)
 ​
-    Strategy:
-    Look through each letter in the input string 
-    If it's an uppercase letter, add 32 to its ascii value 
-    If it's already lowercased, then we don't need to do anything 
+    # populate our dictionary with the key value pairs 
+    for index, num in enumerate(nums): # O(n)
+        d[num] = index # O(1)
 ​
-    How would we check if a letter is upper or lowercased? There are built-ins for 
-    this, but we're not allowed to use them. 
+    # loop over all of the nums again 
+    for index, num in enumerate(nums): # O(n)
+        diff = target - num # O(1)
+        # if diff in l: # O(n)
+        if diff in d: # O(1)
+			if diff == num:
+            	return [index, d[diff]]
 ​
-    Turn ever letter in the input into its ascii number 
-    Iterate through all of the ascii numbers of the input 
-        Check and see if any of those numbers falls into the range 65..90 
-        add 32 to that ascii value 
-    Turn the ascii values back into a string 
-    
-    '''
-    # for l in string:
-    #     ascii_values.append(ord(l))
-​
-    # 1. turn all letters in the input into their corresponding ascii values 
-    # what's the runtime of the `ord` and `chr` functions? O(1)
-    ascii_values = [ord(l) for l in string] # O(n) time, O(n) space 
-​
-    for i, v in enumerate(ascii_values): # O(n) time 
-​
-    # for i in range(len(ascii_values)):
-    #     v = ascii_values[i]
-​
-        if 65 >= v and v <= 90: # O(1)
-            # lowercasing the letter 
-            ascii_values[i] += 32 # O(1)
-    
-    # turn the ascii values back into a string 
-    # letters = [chr(v) for v in ascii_values]
-​
-    return ''.join(chr(v) for v in ascii_values) # O(n) time
+    return [-1, -1]
 ​
 ​
-print(to_lower_case("LambdaSchool"))
+print(two_sum([2,5,9,13], 18))
+​
+# def two_sum(nums, target):
+#     # Your code here
+#     # using nested for loops, we can iterate 
+#     # over the nums
+#         # iterate over all the other nums 
+#         # if the two numbers sum up to our target
+#         # return their indices 
+​
+#     # O(n * n) == O(n^2)
+#     for i in range(len(nums)): # O(n)
+#         for j in range(len(nums)): # O(n)
+#             # add a check to make sure the indices are different 
+#             if i == j: # O(1)
+#                 continue 
+#             # O(1) + O(1) == O(2) ~ O(1)
+#             if nums[i] + nums[j] == target:
+#                 return [i, j]
+​
+#     # we'll only get outside this for loop if we don't find an answer 
+#     return [-1, -1]

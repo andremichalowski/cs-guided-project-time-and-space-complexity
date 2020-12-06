@@ -1,61 +1,44 @@
 """
-Given an unsigned integer, write a function that returns the number of '1' bits
-that the integer contains (the
-[Hamming weight](https://en.wikipedia.org/wiki/Hamming_weight))
+Demonstration #2
 ​
-Unsigned: the integer can only represent positive numbers 
-​
-String representations of numbers 
-Integer representations of numbers 
-Binary representations of numbers 
+Given a non-empty array of integers `nums`, every element appears twice 
+except for one. Write a function that finds the element that only appears once.
 ​
 Examples:
 ​
-- `hamming_weight(n = 00000000000000000000001000000011) -> 3`
-- `hamming_weight(n = 00000000000000000000000000001000) -> 1`
-- `hamming_weight(n = 11111111111111111111111111111011) -> 31`
+- single_number([3,3,2]) -> 2
 ​
-Notes:
-​
-- "Unsigned Integers (often called "uints") are just like integers (whole
-numbers) but have the property that they don't have a + or - sign associated
-with them. Thus they are always non-negative (zero or positive). We use uint's
-when we know the value we are counting will always be non-negative."
+- single_number([5,2,3,2,3]) -> 5
+- single_number([10]) -> 10
 """
+def single_number(nums):
+    # Your code here
+    s = set()
+    # how could we save data to write a implementation that is more efficient? 
+    # for any given number, we'd like to know if we've seen this number already 
+    # can we somehow save each number we've seen in such a way that when we see 
+    # the next copy of it, we can access this quickly 
 ​
-# n = 201 
+    # loop through nums 
+    for num in nums: # O(n)
+        # check if the num is in our set 
+        # if it is
+        if num in s: # O(1)
+            # remove it from our set 
+            s.remove(num) # O(1)
+        # if it isn't
+        else:
+            # add it to the set 
+            s.add(num) # O(1)
+        
+    # the only thing left in the set should be our odd-number-out 
+    # the only way to grab the odd-element-out from our set is to 
+    # turn it into a list and access it via its index 
+    return s.pop() # O(1) since our set should always only have 1 element 
 ​
-def hamming_weight(n):
-    '''
-    Input: unsigned integer
-    Output: integer representing the number of 1s in the binary representation of `n`
-​
-    How can we turn an integer into its binary representation? 
-    Use the built-in `bin` function to get a binary representation of `n` 
-    The output of the `bin` function will always start with '0b'
-    We could remove the leading '0b', but it doesn't affect the number of 1's 
-    in the binary representation, so there's no need     
-​
-    If we already have a binary representation in string format, then we can iterate
-    over it and count the number of 1's 
-    ''' 
-​
-    # return bin(n).count('1')
-​
-    bin_rep = bin(n)
-    counter = 0
-​
-    for digit in bin_rep:
-        if digit == '1':
-            counter += 1
-​
-    return counter 
-​
-print(hamming_weight(201))
-print(hamming_weight(4294967291))
-​
-'''
-We can turn a binary string into an int using the `int` function
-(Don't forget to also pass the int function the argument indicating that 
-the input is a binary string)
-'''
+    # O(n^2)
+    # we could use nested for loops to check 
+    # if every element has another copy of itself 
+    # in the list 
+        # the odd-number-out will not find a copy of itself 
+        # so that would be our answer
